@@ -1,28 +1,31 @@
 #include "homescreen.h"
 #include "ui_homescreen.h"
-#define port1 80
-#define port2 90
-HomeScreen::HomeScreen(QString nameUser,QWidget *parent)
+#define port1 4000
+#define port2 1900
+
+HomeScreen::HomeScreen(QString nameUser,QTextEdit *editLog,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HomeScreen)
 {
+    textEditLog = editLog;
     user = nameUser;
     qInfo() << user+": called Constructor";
     ui->setupUi(this);
     rules = new Rules();
     server = new QTcpServer(this);
     connect(server,SIGNAL(newConnection()),this,SLOT(server_connect()));
-    if(server->listen(QHostAddress::Any,port1)!=true){
-         server->listen(QHostAddress::Any,port2);
-         ui->statusbar->showMessage(user+" Port2");
+    if(server->listen(QHostAddress::Any,port1)==true){
+         ui->statusbar->showMessage(user+"-> Port1 = " + "4000" + " Ip: ");
     }else
     {
-         ui->statusbar->showMessage(user+" Port1");
+          server->listen(QHostAddress::Any,port2);
+          ui->statusbar->showMessage(user+"-> Port2 = " + "1900" + " Ip: ");
     }
     socket = nullptr;
     ui->pushButton_disconnect->setEnabled(false);
     ui->pushButton_send->setEnabled(false);
 }
+
 HomeScreen::~HomeScreen()
 {
     qInfo() << user+": called Destructor";
@@ -33,8 +36,9 @@ HomeScreen::~HomeScreen()
         server->close();
     delete server;
     delete rules;
-    list.clear();
+     list.clear();
 }
+
 void HomeScreen::redy()
 {
     qInfo() << user+": called method redy()";
@@ -47,6 +51,7 @@ void HomeScreen::redy()
     ui->wiget_is_scroll_to_date->addWidget(lineEdit);
     }
 }
+
 void HomeScreen::disc()
 {
     qInfo() << user+": called method disc()";
@@ -56,19 +61,22 @@ void HomeScreen::disc()
     {
         server->listen(QHostAddress::Any,port2);
         ui->statusbar->showMessage(user+" Port2");
-    }else
+    }
+    else
         ui->statusbar->showMessage(user+" Port1");
     ui->pushButton_connect->setEnabled(true);
     ui->pushButton_disconnect->setEnabled(false);
     ui->pushButton_send->setEnabled(false);
     ui->lineTextStatus->setText("Disconect");
 }
+
 void HomeScreen::connection_to_user()
 {
     qInfo() << user+": called method connection_to_user()";
     socket->write("###Conect###Acept###");
     ui->lineTextStatus->setText("Connect");
 }
+
 void HomeScreen::server_connect()
 {
     qInfo() << user+": called method server_connect()";
@@ -80,6 +88,7 @@ void HomeScreen::server_connect()
     ui->pushButton_send->setEnabled(true);
     server->close();
 }
+
 void HomeScreen::on_pushButton_connect_clicked()
 {
     qInfo() << user+": called method on_pushButton_connect_clicked()";
@@ -123,16 +132,19 @@ void HomeScreen::on_pushButton_connect_clicked()
         }
     }
 }
+
 void HomeScreen::on_pushButton_disconnect_clicked()
 {
     qInfo() << user+": called method on_pushButton_disconnect_clicked()";
       socket->close();
 }
+
 void HomeScreen::on_pushButton_rules_clicked()
 {
    qInfo() << user+": called method on_pushButton_rules_clicked()";
    rules->show();
 }
+
 void HomeScreen::on_pushButton_send_clicked()
 {
     qInfo() << user+": called method on_pushButton_send_clicked()";
@@ -146,3 +158,16 @@ void HomeScreen::on_pushButton_send_clicked()
     socket->write(textUser.toUtf8());
     ui->lineTextUser->setText("");
 }
+
+
+// Зробити вікно для Log
+// показувати на яком ip та Log
+// задача для машини ( про швидкість) Контролювати швидкість
+// написати тести для машини
+
+
+void HomeScreen::on_buttonLog_clicked()
+{
+    textEditLog->show();
+}
+

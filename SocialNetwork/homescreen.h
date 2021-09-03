@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include <QLineEdit>
+#include <QTextEdit>
 #include "gettingip.h"
 #include "rules.h"
 QT_BEGIN_NAMESPACE
@@ -14,7 +15,7 @@ class HomeScreen : public QMainWindow
 {
     Q_OBJECT
 public:
-    HomeScreen(QString nameUser,QWidget *parent = nullptr);
+    HomeScreen(QString nameUser,QTextEdit *editLog = nullptr,QWidget *parent = nullptr);
     ~HomeScreen();
 private slots:
     void redy();
@@ -25,6 +26,9 @@ private slots:
     void on_pushButton_disconnect_clicked();
     void on_pushButton_rules_clicked();
     void on_pushButton_send_clicked();
+
+    void on_buttonLog_clicked();
+
 private:
     QString user;
     QList<QLineEdit*>list;
@@ -33,5 +37,6 @@ private:
     QTcpSocket      *socket;
     Rules           *rules;
     Ui::HomeScreen  *ui;
+    QTextEdit       *textEditLog;
 };
 #endif // HOMESCREEN_H

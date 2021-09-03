@@ -288,6 +288,25 @@ background-color: rgb(240,240,240);</string>
             <bool>true</bool>
            </property>
           </widget>
+          <widget class="QPushButton" name="buttonLog">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>180</y>
+             <width>101</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Times New Roman</family>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Log</string>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>

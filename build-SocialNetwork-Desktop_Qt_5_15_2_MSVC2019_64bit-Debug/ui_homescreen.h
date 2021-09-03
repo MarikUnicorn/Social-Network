@@ -43,6 +43,7 @@ public:
     QPushButton *pushButton_disconnect;
     QPushButton *pushButton_rules;
     QLineEdit *lineTextStatus;
+    QPushButton *buttonLog;
     QHBoxLayout *horizontalLayout;
     QLineEdit *lineTextUser;
     QPushButton *pushButton_send;
@@ -168,6 +169,10 @@ public:
         lineTextStatus->setCursorPosition(0);
         lineTextStatus->setAlignment(Qt::AlignCenter);
         lineTextStatus->setReadOnly(true);
+        buttonLog = new QPushButton(groupBox);
+        buttonLog->setObjectName(QString::fromUtf8("buttonLog"));
+        buttonLog->setGeometry(QRect(0, 180, 101, 41));
+        buttonLog->setFont(font1);
 
         horizontalLayout_3->addWidget(groupBox);
 
@@ -222,6 +227,7 @@ public:
         pushButton_disconnect->setText(QCoreApplication::translate("HomeScreen", "\320\222\321\226\320\264\320\272\320\273\321\216\321\207\320\270\321\202\320\270\321\201\321\214", nullptr));
         pushButton_rules->setText(QCoreApplication::translate("HomeScreen", "\320\237\321\200\320\260\320\262\320\270\320\273\320\260", nullptr));
         lineTextStatus->setText(QString());
+        buttonLog->setText(QCoreApplication::translate("HomeScreen", "Log", nullptr));
         lineTextUser->setText(QString());
         pushButton_send->setText(QCoreApplication::translate("HomeScreen", "\320\235\320\260\320\264\321\226\321\201\320\273\320\260\321\202\320\270", nullptr));
     } // retranslateUi

@@ -4,9 +4,11 @@
 #include <QTextStream>
 #include <QScopedPointer>
 #include <QDateTime>
-#include <QMessageBox>
+#include <QTextEdit>
 #include "nameuser.h"
 QScopedPointer<QFile> m_logFile;
+QScopedPointer<QTextEdit> m_logEditText;
+QScopedPointer<HomeScreen> m_homeScreen;
 void massageHandler(QtMsgType type, const QMessageLogContext &context,const QString &msg);
 int main(int argc, char *argv[])
 {
@@ -16,8 +18,11 @@ int main(int argc, char *argv[])
     user.exec();
     m_logFile.reset(new QFile("Log-"+user.getName()+".txt"));
     m_logFile.data()->open(QIODevice::WriteOnly |QIODevice::Append| QIODevice::Text);
-    HomeScreen w(user.getName());
-    w.show();
+    m_logEditText.reset(new QTextEdit);
+    m_logEditText.data()->setDocumentTitle(user.getName());
+    m_logEditText->setFixedSize(600,500);
+    m_homeScreen.reset( new HomeScreen (user.getName(),m_logEditText.data()));
+    m_homeScreen.data()->show();
     return a.exec();
 }
 void massageHandler(QtMsgType type, const QMessageLogContext &context,const QString &msg)
@@ -33,4 +38,5 @@ void massageHandler(QtMsgType type, const QMessageLogContext &context,const QStr
     }
     out << context.category << ": " << msg << '\n';
     out.flush();
+    m_logEditText->append(msg);
 }
